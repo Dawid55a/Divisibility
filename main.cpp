@@ -1,4 +1,3 @@
-#include <iostream>
 #include <cstdio>
 #include <string>
 using namespace std;
@@ -425,14 +424,51 @@ bool divBy2(string number){
     }
 }
 
+bool select(string number, int divider){
+
+    switch (divider) {
+        case 2: return divBy2(number);
+        case 3: return divBy3(number);
+        case 4: return divBy4(number);
+        case 5: return divBy5(number);
+        case 6: return divBy6(number);
+        case 7: return divBy7(number);
+        case 8: return divBy8(number);
+        case 9: return divBy9(number);
+        case 10: return divBy10(number);
+        case 11: return divBy11(number);
+        case 12: return divBy12(number);
+        case 13: return divBy13(number);
+        case 14: return divBy14(number);
+        case 15: return divBy15(number);
+        case 16: return divBy16(number);
+        case 17: return divBy17(number);
+        case 18: return divBy18(number);
+        case 19: return divBy19(number);
+        case 20: return divBy20(number);
+    }
+}
+
 int main() {
 
-    string n;
-    int sum_p;
-    int sum_n;
+    char number [256];
+    int divider;
 
     //todo: check if input is number
     //todo: check if number is < 0
+
+    printf("Number: ");
+    scanf("%s", &number);
+    printf("\nDivider: ");
+    scanf("%d", &divider);
+
+    if (select((string)number, divider)){
+        printf("\nNumber %s is divided by %d", number, divider);
+    }else{
+        printf("\nNumber %s is not divided by %d", number, divider);
+    }
+
+
 
     return 0;
 }
