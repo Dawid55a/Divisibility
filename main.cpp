@@ -1,5 +1,10 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-loop-convert"
+#pragma ide diagnostic ignored "performance-unnecessary-value-param"
+#pragma ide diagnostic ignored "cert-err34-c"
 #include <cstdio>
 #include <string>
+#include <regex>
 using namespace std;
 
 string pad(string, int);
@@ -387,7 +392,6 @@ bool divBy5(string number){
 bool divBy4(string number){
     int last_number;
     int one_before_last_number;
-
     last_number = (char)number[number.length()-1]-'0';
     one_before_last_number = (char)number[number.length()-2]-'0';
 
@@ -446,29 +450,100 @@ bool select(string number, int divider){
         case 18: return divBy18(number);
         case 19: return divBy19(number);
         case 20: return divBy20(number);
+        default: return false;
     }
 }
 
-int main() {
-
-    char number [256];
+void checkDivisionByNumber(){
+    string number;
+    char number_char [256];
     int divider;
+    int choice;
 
-    //todo: check if input is number
-    //todo: check if number is < 0
+    regex number_check("-?[0-9]*");
 
-    printf("Number: ");
-    scanf("%s", &number);
-    printf("\nDivider: ");
-    scanf("%d", &divider);
+    printf("Enter number:");
+    scanf(" %s", &number_char);
+    number = (string) number_char;
+    printf("Enter divider:");
+    scanf(" %d", &divider);
 
-    if (select((string)number, divider)){
-        printf("\nNumber %s is divided by %d", number, divider);
-    }else{
-        printf("\nNumber %s is not divided by %d", number, divider);
+    if (regex_match(number, number_check)) {
+
+        // removing '-', because is unnecessary to calculate
+        if (number[0] == '-') {
+            number.erase(0, 1);
+        }
+        // divider is not in range [2-20]
+        if (divider < 2 || divider > 20) {
+            printf("Please enter valid divider\n");
+        } else {
+            if (select(number, divider)) {
+                printf("Number %s is divided by %d\n", number_char, divider);
+            } else {
+                printf("Number %s is not divided by %d\n", number_char, divider);
+            }
+        }
+    } else {
+        printf("Please enter valid number\n");
     }
+}
 
+void checkDivisionByAllNumbers(){
+    string number;
+    char number_char [256];
 
+    regex number_check("-?[0-9]*");
 
-    return 0;
+    printf("Enter number:");
+    scanf(" %s", &number_char);
+    number = (string) number_char;
+
+    for (int i = 2; i <= 20; ++i) {
+
+        if (regex_match(number, number_check)) {
+
+            // removing '-', because is unnecessary to calculate
+            if (number[0] == '-') {
+                number.erase(0, 1);
+            }
+
+            if (select(number, i)) {
+                printf("Number %s is divided by %d\n", number_char, i);
+            } else {
+                printf("Number %s is not divided by %d\n", number_char, i);
+            }
+
+        } else {
+            printf("Please enter validate number\n");
+        }
+    }
+}
+
+int menu(){
+    int choice;
+    printf("1) Check division by specific number in range [2-20]\n");
+    printf("2) Check division by every number in range [2-20]\n");
+    printf("3) Exit program\n");
+    scanf("%d", &choice);
+    return choice;
+}
+
+int main() {
+    string number;
+    int divider;
+    int choice;
+
+    regex number_check("-?[0-9]*");
+
+    do {
+
+        choice = menu();
+        switch (choice) {
+            case 1: checkDivisionByNumber(); break;
+            case 2: checkDivisionByAllNumbers(); break;
+            case 3: return 0;
+            default: break;
+        }
+    }while(true);
 }
