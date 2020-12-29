@@ -85,6 +85,7 @@ string multiplication(string first_number, int multiplier){
 }
 
 string additionOnString(string first_addend, string second_addend) {
+    //
 
     string outcome;
     int temp;
@@ -125,6 +126,7 @@ bool divBy20(string number){
     char last_digit;
     char second_to_last_digit;
 
+    // Check if last number is o and one before last is dividable by 2
     last_digit = number[number.length()-1];
     second_to_last_digit = number[number.length()-2];
 
@@ -142,6 +144,8 @@ bool divBy19(string number){
     string rest;
     int outcome;
 
+    // Check if 2 times the last digit added to the rest is divisible by 19
+    // We are doing this operation till length of our number is less than 4
     while (number.length()>3){
         last_digit = number.substr(number.length()-1,1);
         last_digit = multiplication(last_digit, 2);
@@ -172,6 +176,8 @@ bool divBy17(string number){
     string rest;
     int outcome;
 
+    // Check if 9 times the last digit added to 5 times the rest is divisible by 17
+    // We are doing this operation till length of our number is less than 4
     while (number.length()>3){
         last_digit = number.substr(number.length()-1,1);
         last_digit = multiplication(last_digit, 9);
@@ -279,7 +285,7 @@ bool divBy11(string number){
     for (int i = 1; i < number.length(); i+=2) {
         sum_of_odd += (char)number[i] - '0';
     }
-
+    // checking if alternating sum of numbers is divisible by 11
     if ((sum_of_even - sum_of_odd)%11 == 0){
         return true;
     }else{
@@ -388,13 +394,17 @@ bool divBy5(string number){
     }
 }
 
-// todo: check what happens on single digit input
 bool divBy4(string number){
     int last_number;
     int one_before_last_number;
-    last_number = (char)number[number.length()-1]-'0';
-    one_before_last_number = (char)number[number.length()-2]-'0';
 
+    if (number.length()>=2) {
+        last_number = (char) number[number.length() - 1] - '0';
+        one_before_last_number = (char) number[number.length() - 2] - '0';
+    }else{
+        last_number = (char) number[number.length() - 1] - '0';
+        one_before_last_number = 0;
+    }
     if (((one_before_last_number*10)+last_number)%4 == 0){
         return true;
     }else{
@@ -402,7 +412,6 @@ bool divBy4(string number){
     }
 }
 
-// divisibility by 3
 bool divBy3(string number){
     int sum_of_number = 0;
 
@@ -418,7 +427,6 @@ bool divBy3(string number){
     }
 }
 
-// divisibility by 2
 bool divBy2(string number){
     // check if last number is divisible by 2
     if (((char)number[number.length()-1]-'0')%2 == 0){
