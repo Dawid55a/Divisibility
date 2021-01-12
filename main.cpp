@@ -9,6 +9,8 @@
 #include <regex>
 using namespace std;
 
+#define DIVNUMBER 30 // Number of division functions
+
 string pad(string, int);
 string multiplication(string, int);
 string additionOnString(string, string);
@@ -36,6 +38,11 @@ bool divBy22(string);
 bool divBy23(string);
 bool divBy24(string);
 bool divBy25(string);
+bool divBy26(string);
+bool divBy27(string);
+bool divBy28(string);
+bool divBy29(string);
+bool divBy30(string);
 
 string pad(string to_pad, int l) {
     string zeros;
@@ -128,6 +135,82 @@ string additionOnString(string first_addend, string second_addend) {
     }
 }
 
+bool divBy30(string number){
+    if (divBy3(number) && divBy10(number)){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+bool divBy29(string number){
+    string last_digit;
+    string rest;
+    int outcome;
+
+    // Check if 3 times the last digit added to the rest is divisible by 29
+    // We are doing this operation till length of our number is less than 4
+    while (number.length()>3){
+        last_digit = number.substr(number.length()-1,1);
+        last_digit = multiplication(last_digit, 3);
+
+        rest = number.substr(0,number.length()-1);
+
+        number = additionOnString(rest, last_digit);
+    }
+    sscanf(number.c_str(), "%d", &outcome);
+
+    if (outcome%29 == 0){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+bool divBy28(string number){
+    if (divBy4(number) && divBy7(number)){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+bool divBy27(string number) {
+    string temp_str;
+    int temp_int;
+    int sum_of_tri = 0;
+    int j = 0;
+
+    for (int i = number.length(); i > 0; i-=3) {
+
+        // border case for not full trio
+        if (i<3){
+            temp_str = number.substr(0,i);
+            sscanf(temp_str.c_str(), "%d", &temp_int);
+        }else {
+            temp_str = number.substr(i - 3, 3);
+            sscanf(temp_str.c_str(), "%d", &temp_int);
+        }
+        sum_of_tri += temp_int;
+
+        j++;
+    }
+
+    // check if alternating sum of blocks of tree is divisible by 13
+    if (sum_of_tri%27 == 0){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+bool divBy26(string number){
+    if (divBy2(number) && divBy13(number)){
+        return true;
+    }else{
+        return false;
+    }
+}
 
 bool divBy25(string number){
     string last_two_digits;
@@ -532,6 +615,11 @@ bool select(string number, int divider){
         case 23: return divBy23(number);
         case 24: return divBy24(number);
         case 25: return divBy25(number);
+        case 26: return divBy26(number);
+        case 27: return divBy27(number);
+        case 28: return divBy28(number);
+        case 29: return divBy29(number);
+        case 30: return divBy30(number);
         default: return false;
     }
 }
@@ -580,7 +668,7 @@ void checkDivisionByAllNumbers(){
     scanf(" %s", &number_char);
     number = (string) number_char;
 
-    for (int i = 2; i <= 20; ++i) {
+    for (int i = 2; i <= DIVNUMBER; ++i) {
 
         if (regex_match(number, number_check)) {
 
@@ -603,8 +691,8 @@ void checkDivisionByAllNumbers(){
 
 int menu(){
     int choice;
-    printf("1) Check division by specific number in range [2-20]\n");
-    printf("2) Check division by every number in range [2-20]\n");
+    printf("1) Check division by specific number in range [2-30]\n");
+    printf("2) Check division by every number in range [2-30]\n");
     printf("3) Exit program\n");
     scanf("%d", &choice);
     return choice;
@@ -617,7 +705,6 @@ int main() {
     regex number_check("-?[0-9]*");
 
     do {
-
         choice = menu();
         switch (choice) {
             case 1: checkDivisionByNumber(); break;
