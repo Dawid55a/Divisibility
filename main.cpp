@@ -1,7 +1,9 @@
+// muting IDE warning
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "modernize-loop-convert"
 #pragma ide diagnostic ignored "performance-unnecessary-value-param"
 #pragma ide diagnostic ignored "cert-err34-c"
+
 #include <cstdio>
 #include <string>
 #include <regex>
@@ -29,7 +31,11 @@ bool divBy17(string);
 bool divBy18(string);
 bool divBy19(string);
 bool divBy20(string);
-
+bool divBy21(string);
+bool divBy22(string);
+bool divBy23(string);
+bool divBy24(string);
+bool divBy25(string);
 
 string pad(string to_pad, int l) {
     string zeros;
@@ -119,6 +125,69 @@ string additionOnString(string first_addend, string second_addend) {
     else {
         outcome = (char) (passed_number + '0') + outcome;
         return outcome;
+    }
+}
+
+
+bool divBy25(string number){
+    string last_two_digits;
+    int last_two_digits_int;
+
+    last_two_digits = number.substr(number.length()-2,2);
+    sscanf(last_two_digits.c_str(), "%d", &last_two_digits_int);
+
+    if (last_two_digits_int%25 == 0){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+bool divBy24(string number){
+    if (divBy3(number) && divBy8(number)){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+bool divBy23(string number){
+    string last_digit;
+    string rest;
+    int outcome;
+
+    // Check if 7 times the last digit added to the rest is divisible by 21
+    // We are doing this operation till length of our number is less than 4
+    while (number.length()>3){
+        last_digit = number.substr(number.length()-1,1);
+        last_digit = multiplication(last_digit, 7);
+
+        rest = number.substr(0,number.length()-1);
+
+        number = additionOnString(rest, last_digit);
+    }
+    sscanf(number.c_str(), "%d", &outcome);
+
+    if (outcome%23 == 0){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+bool divBy22(string number){
+    if (divBy2(number) && divBy11(number)){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+bool divBy21(string number){
+    if (divBy3(number) && divBy7(number)){
+        return true;
+    }else{
+        return false;
     }
 }
 
@@ -458,6 +527,11 @@ bool select(string number, int divider){
         case 18: return divBy18(number);
         case 19: return divBy19(number);
         case 20: return divBy20(number);
+        case 21: return divBy21(number);
+        case 22: return divBy22(number);
+        case 23: return divBy23(number);
+        case 24: return divBy24(number);
+        case 25: return divBy25(number);
         default: return false;
     }
 }
@@ -466,7 +540,6 @@ void checkDivisionByNumber(){
     string number;
     char number_char [256];
     int divider;
-    int choice;
 
     regex number_check("-?[0-9]*");
 
@@ -539,7 +612,6 @@ int menu(){
 
 int main() {
     string number;
-    int divider;
     int choice;
 
     regex number_check("-?[0-9]*");
